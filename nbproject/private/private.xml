@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/metier/TacheMembre.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/metier/Membre.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/vue/AjoutermembreFr.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/vue/AssigneTacheFr.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/metier/Tache.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/controleur/ServiceImpl.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/vue/MenuFr.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/vue/AjoutertacheFr.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/dao/Mysqlconnect.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/controleur/ServiceIlocal.java</file>
+            <file>file:/home/samy/NetBeansProjects/Gestiontache/src/com/gestiontache/vue/ListertachemembreFr.java</file>
+        </group>
+    </open-files>
+</project-private>
