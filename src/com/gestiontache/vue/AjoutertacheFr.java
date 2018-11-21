@@ -12,7 +12,12 @@ import com.gestiontache.metier.Tache;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
@@ -28,6 +33,9 @@ ServiceIlocal se = new ServiceImpl();
 	    public  ResultSet rst;
 	    public static PreparedStatement pst;
             public Tache tache=new Tache();
+            Date dateDebut,datefin;
+            java.sql.Date sqldatedeb,sqldatefin;
+            String datedeb,datef; 
     /**
      * Creates new form AjoutertacheFr
      */
@@ -54,8 +62,6 @@ ServiceIlocal se = new ServiceImpl();
         jLabel6 = new javax.swing.JLabel();
         txtidtache = new javax.swing.JTextField();
         txtnomtache = new javax.swing.JTextField();
-        txtdatedebut = new javax.swing.JTextField();
-        txtdatefin = new javax.swing.JTextField();
         txtetat = new javax.swing.JTextField();
         txtdesctache = new javax.swing.JTextField();
         btnajoutertache = new javax.swing.JButton();
@@ -66,6 +72,8 @@ ServiceIlocal se = new ServiceImpl();
         tbtache = new javax.swing.JTable();
         txtrecherche = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        dtdatedebut = new com.toedter.calendar.JDateChooser();
+        dtdatefin = new com.toedter.calendar.JDateChooser();
 
         setClosable(true);
 
@@ -101,12 +109,6 @@ ServiceIlocal se = new ServiceImpl();
         jLabel5.setText("Date fin");
 
         jLabel6.setText("Etat");
-
-        txtdatedebut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtdatedebutActionPerformed(evt);
-            }
-        });
 
         btnajoutertache.setText("Ajouter");
         btnajoutertache.addActionListener(new java.awt.event.ActionListener() {
@@ -182,6 +184,10 @@ ServiceIlocal se = new ServiceImpl();
 
         jLabel8.setText("Rechercher");
 
+        dtdatedebut.setDateFormatString("yyyy-MM-dd");
+
+        dtdatefin.setDateFormatString("yyyy-MM-dd");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -198,10 +204,28 @@ ServiceIlocal se = new ServiceImpl();
                                 .addComponent(btnmodifiertache)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnsuptache)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnvider))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnvider)
+                                .addGap(6, 6, 6))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(4, 4, 4))
+                                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGap(19, 19, 19)))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel4)
+                                                .addGap(6, 6, 6)))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(dtdatedebut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(dtdatefin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(txtetat, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE))))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -212,18 +236,8 @@ ServiceIlocal se = new ServiceImpl();
                                                 .addComponent(txtdesctache, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(txtnomtache, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(txtidtache, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(4, 4, 4)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtdatedebut, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtdatefin, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtetat, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -248,14 +262,14 @@ ServiceIlocal se = new ServiceImpl();
                     .addComponent(jLabel3)
                     .addComponent(txtdesctache, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(txtdatedebut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dtdatedebut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(txtdatefin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(dtdatefin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtetat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
@@ -267,7 +281,7 @@ ServiceIlocal se = new ServiceImpl();
                     .addComponent(btnvider))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtrecherche, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -294,42 +308,12 @@ ServiceIlocal se = new ServiceImpl();
 
     private void btnmodifiertacheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifiertacheActionPerformed
         // TODO add your handling code here:
-         tache.setTacheId(new Integer(txtidtache.getText()));
-			tache.setTacheNom(txtnomtache.getText());
-			tache.setTacheDescription(txtdesctache.getText());
-			tache.setTacheDate_debut(txtdatedebut.getText());
-			tache.setTacheDate_fin(txtdatefin.getText());
-			tache.setTacheEtat(txtetat.getText());
-		String rep=se.modifier_tache(tache);
-		if(rep=="valider")
-		{
-			JOptionPane.showMessageDialog(AjoutertacheFr.this, "tache enregistre", "Information Message", 1);
-			cleartextbox();
-                        listetache();
-                        Disablebutton();
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(AjoutertacheFr.this, "Enregistrement echoue", "Information Message", 1);
-			
-		}
+       modifierTache();
     }//GEN-LAST:event_btnmodifiertacheActionPerformed
 
     private void btnsuptacheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuptacheActionPerformed
         // TODO add your handling code here:
-         String rep=se.supprimer_tache(new Integer(txtidtache.getText()));
-				if(rep=="valider")
-				{
-					JOptionPane.showMessageDialog(AjoutertacheFr.this, "tache supprime", "Information Message", 1);
-					cleartextbox();
-                                        listetache();
-                                        Disablebutton();
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(AjoutertacheFr.this, "Supression echoue", "Information Message", 1);
-					
-				}
+        supprimertache();
     }//GEN-LAST:event_btnsuptacheActionPerformed
 
     private void btnviderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnviderActionPerformed
@@ -337,32 +321,10 @@ ServiceIlocal se = new ServiceImpl();
         cleartextbox();
         Disablebutton();
     }//GEN-LAST:event_btnviderActionPerformed
-
-    private void txtdatedebutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdatedebutActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtdatedebutActionPerformed
   
     private void btnajoutertacheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnajoutertacheActionPerformed
         // TODO add your handling code here:
-                         tache.setTacheId(new Integer(txtidtache.getText()));
-			tache.setTacheNom(txtnomtache.getText());
-			tache.setTacheDescription(txtdesctache.getText());
-			tache.setTacheDate_debut(txtdatedebut.getText());
-			tache.setTacheDate_fin(txtdatefin.getText());
-			tache.setTacheEtat(txtetat.getText());
-		String rep=	se.ajouter_tache(tache);	
-		if(rep=="valider")
-		{
-			JOptionPane.showMessageDialog(AjoutertacheFr.this, "tache enregistre", "Information Message", 1);
-			cleartextbox();
-                        listetache();
-                        Disablebutton();
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(AjoutertacheFr.this, "Enregistrement echoue", "Information Message", 1);
-			
-		}
+        Ajoutertache();
     }//GEN-LAST:event_btnajoutertacheActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -374,16 +336,7 @@ ServiceIlocal se = new ServiceImpl();
 
     private void tbtacheMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbtacheMousePressed
         // TODO add your handling code here:
-         int index = tbtache.getSelectedRow();
-        TableModel mod = tbtache.getModel();
-        Enablebutton();
-        txtidtache.setText(mod.getValueAt(index, 0).toString());
-        txtnomtache.setText(mod.getValueAt(index, 1).toString());
-        txtdesctache.setText(mod.getValueAt(index, 2).toString());
-        txtdatedebut.setText(mod.getValueAt(index, 3).toString());
-        txtdatefin.setText(mod.getValueAt(index, 4).toString());
-       txtetat.setText(mod.getValueAt(index, 5).toString());
-  
+      rechercherTache();
                                          
     }//GEN-LAST:event_tbtacheMousePressed
 
@@ -391,14 +344,17 @@ ServiceIlocal se = new ServiceImpl();
         // TODO add your handling code here:
         rechercherpar();
     }//GEN-LAST:event_txtrechercheKeyReleased
-/*Clear textbox */
+
+    /*Tous le methodes*/
+    
+    /*Clear textbox */
 	private void cleartextbox() {
 		// TODO Auto-generated method stub
 		txtidtache.setText(null);
 		txtnomtache.setText(null);
 		txtdesctache.setText(null);
-		txtdatedebut.setText(null);
-		txtdatefin.setText(null);
+		dtdatedebut.setDate(null);
+		dtdatefin.setDate(null);
 		txtetat.setText(null);
 	
 	}
@@ -406,14 +362,12 @@ ServiceIlocal se = new ServiceImpl();
 		// TODO Auto-generated method stub
                 btnajoutertache.setEnabled(true);
 		btnmodifiertache.setEnabled(false);
-                btnvider.setEnabled(false);
                 btnsuptache.setEnabled(false);	
 	}
          private void Enablebutton() {
 		// TODO Auto-generated method stub
                  btnajoutertache.setEnabled(false);
 		btnmodifiertache.setEnabled(true);
-                btnvider.setEnabled(true);
                 btnsuptache.setEnabled(true);	
 	}
         public  void listetache() {
@@ -435,6 +389,7 @@ ServiceIlocal se = new ServiceImpl();
             }
 	
 }
+        /*methode rechercher une tache avec critere*/
         public  void rechercherpar() {
          try 
         {
@@ -456,12 +411,113 @@ ServiceIlocal se = new ServiceImpl();
                 
             }
     }
-
+         /*methode Ajouter une tache*/
+        public void Ajoutertache()
+        {
+            dateDebut= dtdatedebut.getDate();
+        sqldatedeb= new java.sql.Date(dateDebut.getTime());
+        datedeb =sqldatedeb.toString();
+        datefin= dtdatefin.getDate();
+        sqldatefin= new java.sql.Date(datefin.getTime());
+        datef =sqldatefin.toString();
+                         tache.setTacheId(new Integer(txtidtache.getText()));
+			tache.setTacheNom(txtnomtache.getText());
+			tache.setTacheDescription(txtdesctache.getText());
+			tache.setTacheDate_debut(datedeb);
+			tache.setTacheDate_fin(datef);
+			tache.setTacheEtat(txtetat.getText());
+		String rep=se.ajouter_tache(tache);
+		if(rep.equals("valider"))
+		{
+			JOptionPane.showMessageDialog(AjoutertacheFr.this, "tache enregistre", "Information Message", 1);
+			cleartextbox();
+                        listetache();
+                        Disablebutton();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(AjoutertacheFr.this, "Enregistrement echoue"+rep, "Information Message", 1);
+			
+		}
+        }
+         /*methode Ajouter une tache avec ID*/
+public void rechercherTache()
+{
+   int index = tbtache.getSelectedRow();
+        TableModel mod = tbtache.getModel();
+        Enablebutton();
+         datedeb =mod.getValueAt(index, 3).toString() ;
+         datef=mod.getValueAt(index,4).toString() ;
+        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd");  
+        try {  
+        dateDebut=formatter.parse(datedeb);
+         datefin=formatter.parse(datef);
+         } catch (ParseException ex) {
+        Logger.getLogger(AjoutertacheFr.class.getName()).log(Level.SEVERE, null, ex);
+    }
+      sqldatedeb=new java.sql.Date(dateDebut.getTime());
+       sqldatefin=new java.sql.Date(datefin.getTime()); 
+      txtidtache.setText(mod.getValueAt(index, 0).toString());
+        txtnomtache.setText(mod.getValueAt(index, 1).toString());
+        txtdesctache.setText(mod.getValueAt(index, 2).toString());
+        dtdatedebut.setDate(sqldatedeb);
+        dtdatefin.setDate(sqldatefin);
+       txtetat.setText(mod.getValueAt(index, 5).toString());
+  
+}
+ /*methode Modifier une tache*/
+public void modifierTache()
+{
+         dateDebut= dtdatedebut.getDate();
+         sqldatedeb= new java.sql.Date(dateDebut.getTime());
+         datedeb =sqldatedeb.toString();
+         datefin= dtdatefin.getDate();
+         sqldatefin= new java.sql.Date(datefin.getTime());
+         datef =sqldatefin.toString();
+         tache.setTacheId(new Integer(txtidtache.getText()));
+			tache.setTacheNom(txtnomtache.getText());
+			tache.setTacheDescription(txtdesctache.getText());
+			tache.setTacheDate_debut(datedeb);
+			tache.setTacheDate_fin(datef);
+			tache.setTacheEtat(txtetat.getText());
+		String rep=se.modifier_tache(tache);
+		if(rep.equals("valider"))
+		{
+			JOptionPane.showMessageDialog(AjoutertacheFr.this, "tache enregistre", "Information Message", 1);
+			cleartextbox();
+                        listetache();
+                        Disablebutton();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(AjoutertacheFr.this, "Enregistrement echoue", "Information Message", 1);
+			
+		}
+}
+ /*methode supprimer une tache*/
+public void supprimertache()
+{
+ String rep=se.supprimer_tache(new Integer(txtidtache.getText()));
+				if(rep.equals("valider"))
+				{
+					JOptionPane.showMessageDialog(AjoutertacheFr.this, "tache supprime", "Information Message", 1);
+					cleartextbox();
+                                        listetache();
+                                        Disablebutton();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(AjoutertacheFr.this, "Supression echoue", "Information Message", 1);
+					
+				}
+}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnajoutertache;
     private javax.swing.JButton btnmodifiertache;
     private javax.swing.JButton btnsuptache;
     private javax.swing.JButton btnvider;
+    private com.toedter.calendar.JDateChooser dtdatedebut;
+    private com.toedter.calendar.JDateChooser dtdatefin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -472,8 +528,6 @@ ServiceIlocal se = new ServiceImpl();
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbtache;
-    private javax.swing.JTextField txtdatedebut;
-    private javax.swing.JTextField txtdatefin;
     private javax.swing.JTextField txtdesctache;
     private javax.swing.JTextField txtetat;
     private javax.swing.JTextField txtidtache;

@@ -24,9 +24,9 @@ import net.proteanit.sql.DbUtils;
 public class AjoutermembreFr extends javax.swing.JInternalFrame {
 ServiceIlocal se = new ServiceImpl();
 	static List<Membre> listmemb;
-         public java.sql.Statement st;
-	    public  ResultSet rst;
-	    public static PreparedStatement pst;
+        public java.sql.Statement st;
+	public  ResultSet rst;
+	public static PreparedStatement pst;
     /**
      * Creates new form AjoutermembreFr
      */
@@ -336,65 +336,17 @@ ServiceIlocal se = new ServiceImpl();
 
     private void btnajoutermembreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnajoutermembreActionPerformed
         // TODO add your handling code here:
-        membre.setMembreID(new Integer(txtidmembre.getText()));
-			membre.setMembreNom(txtnommembre.getText());
-			membre.setMembrePrenom(txtprenommembre.getText());
-			membre.setMembreAdresse(txtadressemembre.getText());
-			membre.setMembreTel(txttelmembre.getText());
-			membre.setMembreEmail(txtemailmembre.getText());
-		String rep=	se.ajouter_membre(membre);	
-		if(rep=="valider")
-		{
-			JOptionPane.showMessageDialog(AjoutermembreFr.this, "Membre enregistre", "Information Message", 1);
-			cleartextbox();
-                        listemembre();
-                        Disablebutton();
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(AjoutermembreFr.this, "Enregistrement echoue", "Information Message", 1);
-			
-		}
+       ajouterMembre();
     }//GEN-LAST:event_btnajoutermembreActionPerformed
 
     private void btnmodifiermembreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodifiermembreActionPerformed
         // TODO add your handling code here:
-				membre.setMembreID(new Integer(txtidmembre.getText()));
-				membre.setMembreNom(txtnommembre.getText());
-				membre.setMembrePrenom(txtprenommembre.getText());
-				membre.setMembreAdresse(txtadressemembre.getText());
-				membre.setMembreTel(txttelmembre.getText());
-				membre.setMembreEmail(txtemailmembre.getText());
-			String rep=	se.modifier_membre(membre);	
-			if(rep=="valider")
-			{
-				JOptionPane.showMessageDialog(AjoutermembreFr.this, "Membre Modifie", "Information Message", 1);
-				cleartextbox();
-                                listemembre();
-                                Disablebutton();
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(AjoutermembreFr.this, "Modification echoue", "Information Message", 1);
-				
-			}
+				modifierMembre();
     }//GEN-LAST:event_btnmodifiermembreActionPerformed
 
     private void btnsupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsupActionPerformed
         // TODO add your handling code here:
-        String rep=se.supprimer_membre(new Integer(txtidmembre.getText()));
-				if(rep=="valider")
-				{
-					JOptionPane.showMessageDialog(AjoutermembreFr.this, "Membre supprime", "Information Message", 1);
-					cleartextbox();
-                                        listemembre();
-                                        Disablebutton();
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(AjoutermembreFr.this, "Supression echoue", "Information Message", 1);
-					
-				}
+       supprimerMembre();
     }//GEN-LAST:event_btnsupActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -426,7 +378,8 @@ ServiceIlocal se = new ServiceImpl();
         cleartextbox();
         Disablebutton();
     }//GEN-LAST:event_btnviderActionPerformed
-
+ /*Tous les methodes*/
+    
 /*Clear textbox */
 	private void cleartextbox() {
 		// TODO Auto-generated method stub
@@ -452,6 +405,70 @@ ServiceIlocal se = new ServiceImpl();
                 btnvider.setEnabled(true);
                 btnsup.setEnabled(true);	
 	}
+          /*methode Ajouter un membre*/
+         public void ajouterMembre()
+         {
+              membre.setMembreID(new Integer(txtidmembre.getText()));
+			membre.setMembreNom(txtnommembre.getText());
+			membre.setMembrePrenom(txtprenommembre.getText());
+			membre.setMembreAdresse(txtadressemembre.getText());
+			membre.setMembreTel(txttelmembre.getText());
+			membre.setMembreEmail(txtemailmembre.getText());
+		String rep=se.ajouter_membre(membre);	
+		if(rep.equals("valider"))
+		{
+			JOptionPane.showMessageDialog(AjoutermembreFr.this, "Membre enregistre", "Information Message", 1);
+			cleartextbox();
+                        listemembre();
+                        Disablebutton();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(AjoutermembreFr.this, "Enregistrement echoue", "Information Message", 1);
+			
+		}
+         }
+          /*methode Modifier une membre*/
+         public void modifierMembre()
+         {
+         membre.setMembreID(new Integer(txtidmembre.getText()));
+				membre.setMembreNom(txtnommembre.getText());
+				membre.setMembrePrenom(txtprenommembre.getText());
+				membre.setMembreAdresse(txtadressemembre.getText());
+				membre.setMembreTel(txttelmembre.getText());
+				membre.setMembreEmail(txtemailmembre.getText());
+			String rep=	se.modifier_membre(membre);	
+			if(rep.equals("valider"))
+			{
+				JOptionPane.showMessageDialog(AjoutermembreFr.this, "Membre Modifie", "Information Message", 1);
+				cleartextbox();
+                                listemembre();
+                                Disablebutton();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(AjoutermembreFr.this, "Modification echoue", "Information Message", 1);
+				
+			}
+         }
+          /*methode Supprimer un membre*/
+         public void supprimerMembre()
+         {
+          String rep=se.supprimer_membre(new Integer(txtidmembre.getText()));
+				if(rep.equals("valider"))
+				{
+					JOptionPane.showMessageDialog(AjoutermembreFr.this, "Membre supprime", "Information Message", 1);
+					cleartextbox();
+                                        listemembre();
+                                        Disablebutton();
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(AjoutermembreFr.this, "Supression echoue", "Information Message", 1);
+					
+				}
+         }
+          /*methode lister tous les membres*/
         public  void listemembre() {
 	try 
         {
@@ -471,6 +488,7 @@ ServiceIlocal se = new ServiceImpl();
             }
 	
 }
+         /*methode rechercher un membre avec critere*/
         public  void rechercherpar() {
          try 
         {

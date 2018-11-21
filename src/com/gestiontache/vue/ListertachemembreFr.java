@@ -171,7 +171,7 @@ public class ListertachemembreFr extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         listetachemembre();
     }//GEN-LAST:event_btnrecherchertacheActionPerformed
-
+ /*methode Lister tous les taches d'un membre*/
 public  void listetachemembre() {
     int id =new Integer(txtrecherche.getText());
 	try 

@@ -48,8 +48,8 @@ ServiceIlocal se = new ServiceImpl();
         jLabel4 = new javax.swing.JLabel();
         cbxidmembre = new javax.swing.JComboBox<>();
         cbxidtache = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnassignertache = new javax.swing.JButton();
+        btnannuler = new javax.swing.JButton();
 
         setClosable(true);
 
@@ -98,14 +98,19 @@ ServiceIlocal se = new ServiceImpl();
             }
         });
 
-        jButton1.setText("Assigner");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnassignertache.setText("Assigner");
+        btnassignertache.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnassignertacheActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Annuler");
+        btnannuler.setText("Annuler");
+        btnannuler.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnannulerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -118,7 +123,7 @@ ServiceIlocal se = new ServiceImpl();
                     .addComponent(jLabel3))
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
+                    .addComponent(btnassignertache, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
                     .addComponent(cbxidmembre, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cbxidtache, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, Short.MAX_VALUE)
@@ -130,7 +135,7 @@ ServiceIlocal se = new ServiceImpl();
                         .addComponent(jLabel2)
                         .addGap(35, 35, 35)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnannuler, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtnomcomplet, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                     .addComponent(txtnomtache))
                 .addGap(20, 20, 20))
@@ -152,8 +157,8 @@ ServiceIlocal se = new ServiceImpl();
                     .addComponent(cbxidtache, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnassignertache)
+                    .addComponent(btnannuler))
                 .addContainerGap())
         );
 
@@ -176,26 +181,12 @@ ServiceIlocal se = new ServiceImpl();
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         // TODO add your handling code here:
         populatecombo();
-        populatecombo2();
     }//GEN-LAST:event_formInternalFrameOpened
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnassignertacheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnassignertacheActionPerformed
         // TODO add your handling code here:
-        int idmemb=new Integer(cbxidmembre.getSelectedItem().toString());
-				int idtach=new Integer(cbxidtache.getSelectedItem().toString());
-				TacheMembre mbtache =new TacheMembre(0, idmemb, idtach);
-			String rep=se.assigner_tache(mbtache);
-			if(rep=="valider")
-			{
-				JOptionPane.showMessageDialog(AssigneTacheFr.this, "Tache assigne", "Information Message", 1);
-				cleartextbox();
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(AssigneTacheFr.this, rep, "Information Message", 1);
-				
-			}
-    }//GEN-LAST:event_jButton1ActionPerformed
+       assignerTache();
+    }//GEN-LAST:event_btnassignertacheActionPerformed
 
     private void cbxidmembreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxidmembreItemStateChanged
         // TODO add your handling code here:
@@ -208,34 +199,55 @@ ServiceIlocal se = new ServiceImpl();
         Tache tach=se.rechercher_tache(new Integer(cbxidtache.getSelectedItem().toString()));
 	txtnomtache.setText(tach.getTacheNom());
     }//GEN-LAST:event_cbxidtacheItemStateChanged
-public void populatecombo() {
+
+    private void btnannulerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnannulerActionPerformed
+        // TODO add your handling code here:
+        cleartextbox();
+    }//GEN-LAST:event_btnannulerActionPerformed
+/*Tous le methodes*/
+    
+    public void populatecombo() {
+    /*Populate combo Membre*/
 	listmemb=se.listemembre();
         listmemb.forEach((membre) -> {
             cbxidmembre.addItem(""+membre.getMembreID());
     });
-	
-}
-public void populatecombo2() {
+        /*Populate combo Tache*/
 	listtach=se.listetache();
         listtach.forEach((tache) -> {
             cbxidtache.addItem(""+tache.getTacheId());
     });
-	}
+}
+
 /*Clear textbox */
 private void cleartextbox() {
 	// TODO Auto-generated method stub
 	txtnomtache.setText(null);
 	txtnomcomplet.setText(null);
-	//cbxidmembre.setSelectedItem(null);
-	//cbxidtache.setSelectedItem(null);
 
 }
-
+ /*methode Assigner une tache a un membre*/
+public void assignerTache()
+{
+ int idmemb=new Integer(cbxidmembre.getSelectedItem().toString());
+				int idtach=new Integer(cbxidtache.getSelectedItem().toString());
+				TacheMembre mbtache =new TacheMembre(0, idmemb, idtach);
+			String rep=se.assigner_tache(mbtache);
+			if(rep.equals("valider"))
+			{
+				JOptionPane.showMessageDialog(AssigneTacheFr.this, "Tache assigne", "Information Message", 1);
+				cleartextbox();
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(AssigneTacheFr.this, rep, "Information Message", 1);
+				
+			}}
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnannuler;
+    private javax.swing.JButton btnassignertache;
     private javax.swing.JComboBox<String> cbxidmembre;
     private javax.swing.JComboBox<String> cbxidtache;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

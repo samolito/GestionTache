@@ -51,7 +51,7 @@
                   </Group>
                   <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jButton1" pref="125" max="32767" attributes="0"/>
+                      <Component id="btnassignertache" pref="125" max="32767" attributes="0"/>
                       <Component id="cbxidmembre" max="32767" attributes="0"/>
                       <Component id="cbxidtache" max="32767" attributes="0"/>
                   </Group>
@@ -67,7 +67,7 @@
                       </Group>
                   </Group>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jButton2" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
+                      <Component id="btnannuler" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
                       <Component id="txtnomcomplet" pref="166" max="32767" attributes="0"/>
                       <Component id="txtnomtache" alignment="0" max="32767" attributes="0"/>
                   </Group>
@@ -94,8 +94,8 @@
                   </Group>
                   <EmptySpace pref="35" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnassignertache" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnannuler" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -149,18 +149,21 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="btnassignertache">
           <Properties>
             <Property name="text" type="java.lang.String" value="Assigner"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnassignertacheActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="btnannuler">
           <Properties>
             <Property name="text" type="java.lang.String" value="Annuler"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnannulerActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
